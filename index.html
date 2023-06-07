@@ -87,7 +87,7 @@
         <option value="right">Right</option>
       </select>
 
-      <label for="border-size-input">Border size (in pixels): <span id="border-size-label">0px</span></label>
+      <label for="border-size-input">Border Radius size (in pixels): <span id="border-size-label">0px</span></label>
       <input type="range" id="border-size-input" name="borderSize" min="0" max="10" step="1" value="0">
 
       <label for="padding-input">Padding (in pixels): <span id="padding-label">0px</span></label>
@@ -177,10 +177,10 @@
         // Copia il testo nel portapillole
         navigator.clipboard.writeText(cssCode)
           .then(function() {
-            alert("Codice copiato negli appunti!");
+            alert("Code copied to clipboard.");
           })
           .catch(function(error) {
-            console.error("Errore durante la copia del codice:", error);
+            console.error("Error while copying the code:", error);
           });
       });
     });
