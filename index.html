@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kick Chat overlay for OBS/StreamLab</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="color"],
+    input[type="range"],
+    input[type="text"] {
+      width: 100%;
+      padding: 5px;
+    }
+
+    input[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .code-output {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      margin-bottom: 20px;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kick Chat overlay for OBS/StreamLab</h1>
+    <form id="chat-form">
+      <label for="color-input">Choose a color:</label>
+      <input type="color" id="color-input" name="color" value="#ffffff">
+
+      <label for="alignment-select">Text alignment:</label>
+      <select id="alignment-select" name="alignment">
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+      </select>
+
+      <label for="border-size-input">Border size (in pixels):</label>
+      <input type="range" id="border-size-input" name="borderSize" min="0" max="10" step="1" value="0">
+
+      <label for="padding-input">Padding (in pixels):</label>
+      <input type="range" id="padding-input" name="padding" min="0" max="20" step="1" value="0">
+
+      <label for="animation-select">Animation direction:</label>
+      <select id="animation-select" name="animation">
+        <option value="right">Right</option>
+        <option value="left">Left</option>
+        <option value="bottom">Bottom</option>
+        <option value="top">Top</option>
+      </select>
+
+      <input type="submit" value="Generate CSS">
+    </form>
+
+    <div class="code-output">
+      <pre id="css-code"></pre>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("chat-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Get form values
+      var color = document.getElementById("color-input").value;
+      var alignment = document.getElementById("alignment-select").value;
+      var borderSize = document.getElementById("border-size-input").value;
+      var padding = document.getElementById("padding-input").value;
+      var animation = document.getElementById("animation-select").value;
+
+      // Generate CSS code
+      var cssCode = `
+        .chat-overlay {
+          background-color: ${color};
+          text-align: ${alignment};
+          border-radius: ${borderSize}px;
+          padding: ${padding}px;
+          animation: chat-animation-${animation} 1s infinite;
+        }
+
+        @keyframes chat-animation-right {
+          0% { transform: translateX(-100%); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes chat-animation-left {
+          0% { transform: translateX(100%); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes chat-animation-bottom {
+          0% { transform: translateY(-100%); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes chat-animation-top {
+          0% { transform: translateY(100%); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+      `;
+
+      // Update code output
+      document.getElementById("css-code").textContent = cssCode;
+    });
+  </script>
+</body>
+</html>
