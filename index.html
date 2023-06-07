@@ -54,6 +54,20 @@
       padding: 10px;
       margin-bottom: 20px;
       white-space: pre;
+      overflow: auto; /* Aggiunto overflow per gestire il contenuto più lungo */
+      position: relative; /* Aggiunto posizionamento relativo */
+    }
+
+    /* Aggiunto stile per il pulsante di copia */
+    .copy-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -92,6 +106,7 @@
 
     <div class="code-output">
       <pre id="css-code"></pre>
+      <button class="copy-button" id="copy-button">Copy</button> <!-- Aggiunto il pulsante di copia -->
     </div>
   </div>
 
@@ -161,6 +176,18 @@
 
       // Update code output
       document.getElementById("css-code").textContent = cssCode;
+      // Aggiungi l'evento di click al pulsante di copia
+      var copyButton = document.getElementById("copy-button");
+      copyButton.addEventListener("click", function() {
+        // Copia il testo nel portapillole
+        navigator.clipboard.writeText(cssCode)
+          .then(function() {
+            alert("Codice copiato negli appunti!");
+          })
+          .catch(function(error) {
+            console.error("Errore durante la copia del codice:", error);
+          });
+      });
     });
   </script>
 </body>
