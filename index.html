@@ -63,6 +63,10 @@
     <form id="chat-form">
       <label for="color-input">Choose a color:</label>
       <input type="color" id="color-input" name="color" value="rgba(255,255,255,1)">
+      
+      <label for="opacity-input">Opacity:</label>
+      <input type="range" id="opacity-input" name="opacity" min="0" max="1" step="0.1" value="1">
+      <span id="opacity-label">1</span>
 
       <label for="alignment-select">Text alignment:</label>
       <select id="alignment-select" name="alignment">
@@ -93,6 +97,18 @@
   </div>
 
   <script>
+    function hexToRgb(hex) {
+      // Rimuovi il carattere '#' dal codice esadecimale
+      hex = hex.replace("#", "");
+
+      // Dividi il codice esadecimale in componenti RGB
+      var r = parseInt(hex.substring(0, 2), 16);
+      var g = parseInt(hex.substring(2, 4), 16);
+      var b = parseInt(hex.substring(4, 6), 16);
+
+      // Restituisci il formato RGB
+      return `${r}, ${g}, ${b}`;
+    }
     function updateLabel(inputId, labelId) {
       var input = document.getElementById(inputId);
       var label = document.getElementById(labelId);
@@ -114,10 +130,12 @@
 
       // Get form values
       var color = document.getElementById("color-input").value;
+      var opacity = document.getElementById("opacity-input").value;
       var alignment = document.getElementById("alignment-select").value;
       var borderSize = document.getElementById("border-size-input").value;
       var padding = document.getElementById("padding-input").value;
       var animation = document.getElementById("animation-select").value;
+      var colorRgb = hexToRgb(color);
       
       var transDir = "translateX";
       var start = "100%";
@@ -135,7 +153,7 @@
         @keyframes fade-in { 0% { opacity: 0; transform:${transDir}(${start}) } 100% { opacity: 1; transform:${transDir}(0)} }
         #chatroom-footer, #chatroom-top, .bottom-0.w-screen, .chatroom-history-breaker, .spinner {display:none !important}
         .bg-gray-900, .border-secondary-lighter, :is(.dark .dark\:bg-secondary) {background-color: transparent !important; border: none}
-        .chat-entry {text-align:${alignment}; font-size:28px; background-color: ${color}; padding: ${padding}px; border-radius: ${borderSize}px; opacity: 0; animation: fade-in 0.5s forwards} 
+        .chat-entry {text-align:${alignment}; font-size:28px; background-color: rgba(${color}, ${opacity}); padding: ${padding}px; border-radius: ${borderSize}px; opacity: 0; animation: fade-in 0.5s forwards} 
       `;
 
       // Update code output
