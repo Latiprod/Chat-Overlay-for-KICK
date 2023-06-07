@@ -70,10 +70,10 @@
         <option value="right">Right</option>
       </select>
 
-      <label for="border-size-input">Border size (in pixels):</label>
+      <label for="border-size-input">Border size (in pixels): <span id="border-size-label">0px</span></label>
       <input type="range" id="border-size-input" name="borderSize" min="0" max="10" step="1" value="0">
 
-      <label for="padding-input">Padding (in pixels):</label>
+      <label for="padding-input">Padding (in pixels): <span id="padding-label">0px</span></label>
       <input type="range" id="padding-input" name="padding" min="0" max="20" step="1" value="0">
 
       <label for="animation-select">Animation direction:</label>
@@ -93,6 +93,22 @@
   </div>
 
   <script>
+    function updateLabel(inputId, labelId) {
+      var input = document.getElementById(inputId);
+      var label = document.getElementById(labelId);
+      label.textContent = input.value + 'px';
+    }
+
+    // Update border size label on input change
+    document.getElementById("border-size-input").addEventListener("input", function() {
+      updateLabel("border-size-input", "border-size-label");
+    });
+
+    // Update padding label on input change
+    document.getElementById("padding-input").addEventListener("input", function() {
+      updateLabel("padding-input", "padding-label");
+    });
+    
     document.getElementById("chat-form").addEventListener("submit", function(event) {
       event.preventDefault();
 
@@ -102,36 +118,24 @@
       var borderSize = document.getElementById("border-size-input").value;
       var padding = document.getElementById("padding-input").value;
       var animation = document.getElementById("animation-select").value;
+      
+      var transDir = "translateX";
+      var start = "100%";
+      
+      if (animation == "top" || animation == "bottom") {
+        transDir = "translateY";
+      }
+      
+      if (animation == "left" || animation == "bottom") {
+        start = "-100%"
+      }
 
       // Generate CSS code
       var cssCode = `
-        .chat-overlay {
-          background-color: ${color};
-          text-align: ${alignment};
-          border-radius: ${borderSize}px;
-          padding: ${padding}px;
-          animation: chat-animation-${animation} 1s infinite;
-        }
-
-        @keyframes chat-animation-right {
-          0% { transform: translateX(-100%); opacity: 0; }
-          100% { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes chat-animation-left {
-          0% { transform: translateX(100%); opacity: 0; }
-          100% { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes chat-animation-bottom {
-          0% { transform: translateY(-100%); opacity: 0; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes chat-animation-top {
-          0% { transform: translateY(100%); opacity: 0; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes fade-in { 0% { opacity: 0; transform:${transDir}(${start}) } 100% { opacity: 1; transform:${transDir}(0)} }
+        #chatroom-footer, #chatroom-top, .bottom-0.w-screen, .chatroom-history-breaker, .spinner {display:none !important}
+        .bg-gray-900, .border-secondary-lighter, :is(.dark .dark\:bg-secondary) {background-color: transparent !important; border: none}
+        .chat-entry {text-align:${alignment}; font-size:28px; background-color: ${color}; padding: ${padding}px; border-radius: ${borderSize}px; opacity: 0; animation: fade-in 0.5s forwards} 
       `;
 
       // Update code output
