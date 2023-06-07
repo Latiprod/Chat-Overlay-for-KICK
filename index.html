@@ -64,9 +64,8 @@
       <label for="color-input">Choose a color:</label>
       <input type="color" id="color-input" name="color" value="rgba(255,255,255,1)">
       
-      <label for="opacity-input">Opacity:</label>
+      <label for="opacity-input">Opacity: <span id="opacity-label">1</span></label>
       <input type="range" id="opacity-input" name="opacity" min="0" max="1" step="0.1" value="1">
-      <span id="opacity-label">1</span>
 
       <label for="alignment-select">Text alignment:</label>
       <select id="alignment-select" name="alignment">
@@ -124,6 +123,10 @@
     document.getElementById("padding-input").addEventListener("input", function() {
       updateLabel("padding-input", "padding-label");
     });
+    
+    document.getElementById("opacity-input").addEventListener("input", function() {
+    updateLabel("opacity-input", "opacity-label");
+  });
     
     document.getElementById("chat-form").addEventListener("submit", function(event) {
       event.preventDefault();
