@@ -167,7 +167,7 @@
       }
 
       // Generate CSS code
-      var cssCode = `@keyframes fade-in { 0% { opacity: 0; transform:${transDir}(${start}) } 100% { opacity: 1; transform:${transDir}(0)} } #chatroom-footer, #chatroom-top, .bottom-0.w-screen, .chatroom-history-breaker, .spinner {display:none !important} .bg-gray-900, .border-secondary-lighter, :is(.dark .dark\:bg-secondary) {background-color: transparent !important; border: none} .chat-entry {text-align:${alignment}; font-size:28px; background-color: rgba(${colorRgb}, ${opacity}); padding: ${padding}px; border-radius: ${borderSize}px; opacity: 0; animation: fade-in 0.5s forwards} `;
+      var cssCode = `@keyframes fade-in { 0% { opacity: 0; transform:${transDir}(${start}) } 100% { opacity: 1; transform:${transDir}(0)} } #chatroom-footer, #chatroom-top, .bottom-0.w-screen, .chatroom-history-breaker, .spinner {display:none !important} .bg-gray-900, .border-secondary-lighter, :is(.dark .dark\\:bg-secondary) {background-color: transparent !important; border: none} .chat-entry {text-align:${alignment}; font-size:28px; background-color: rgba(${colorRgb}, ${opacity}); padding: ${padding}px; border-radius: ${borderSize}px; opacity: 0; animation: fade-in 0.5s forwards} `;
 
       // Update code output
       document.getElementById("css-code").textContent = cssCode;
